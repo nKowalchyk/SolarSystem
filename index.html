@@ -3,15 +3,22 @@
 <html lang="en">
 <head>
     <meta charset=utf-8>
-    <style>
-        body {margin: 0}
-        canvas { width: 100%; height: 100%}
-    </style>
+    <link rel="stylesheet" href="main.css">
+</head>
     <body>
+        <div class="container">        
+            <div class="mainCanvas">
+                <canvas id="mainCanvas"></canvas>
+            </div>
+            <div id="console" class="overlay"></div>   
+        </div>
+        
+        <script src="scripts/Pellet.js"></script>
+        <script src="scripts/Messager.js"></script>
         <script src="scripts/three.js"></script>
         <script src="scripts/Satellite.js"></script>
         <script src="scripts/SolarSystem.js"></script>
+        <script src="scripts/Drone.js"></script>
         <script src="scripts/source.js"></script>
     </body>
-</head>
 </html>

@@ -1,15 +1,18 @@
 
 var scene, camera, renderer, light, spotlight;
 var solarSystem;
+var drone;
+var pellets = [];
+var drones = [];
+var lastUpdate, deltaTime, currentTime;
+var messager;
 
 function createScene() {
     scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0xcce0ff, 500, 10000);
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 500 );
-    renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(0xa5b7bd, 1);
-    
-    camera.position.set(0, 25, 50);
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 3000 );
+    renderer = new THREE.WebGLRenderer({canvas: mainCanvas});
+
+    camera.position.set(0, 75, 300);
    
     scene.add(camera);
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -32,7 +35,14 @@ function createLights() {
 }
 
 function createEntities() {
-    solarSystem = new SolarSystem(scene);
+    messager = new Messager();
+    solarSystem = new SolarSystem(messager, scene);
+/*    drone = new Drone(solarSystem.sun, messager, scene);
+    for(let i = 0; i < 10; i++) {
+        pellets.push(new Pellet(solarSystem.sun, scene));
+        solarSystem.sun.addEntity(pellets[i]);
+    } */
+    lastUpdate = Date.now();
 }
 
 function handleWindowResize() {
@@ -43,9 +53,17 @@ function handleWindowResize() {
 
 function animate () {
     let currentTime = Date.now();
-    //let deltaTime = (currentTime - lastUpdate) / 1000;
-    //lastUpdate = currentTime;
-    solarSystem.update(1);
+    let deltaTime = (currentTime - lastUpdate) / 1000;
+    lastUpdate = currentTime;
+   // drone.update(deltaTime);
+    solarSystem.update(deltaTime);
+   /* for(let i = pellets.length - 1; i >= 0; i--) {
+        if(pellets[i].checkCollision(drone)) {
+            pellets.splice(i, 1);
+        }
+    } */
+
+    //solarSystem.sun.entity.position.x += 0.1;
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
